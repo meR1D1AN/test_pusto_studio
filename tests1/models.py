@@ -1,4 +1,4 @@
-from django.core.validators import MaxValueValidator, MinValueValidator
+from django.core.validators import MaxValueValidator
 from django.db.models import (
     CASCADE,
     BooleanField,
@@ -7,10 +7,10 @@ from django.db.models import (
     ForeignKey,
     Model,
     PositiveIntegerField,
-    TextChoices,
 )
 from django.utils import timezone
 
+from conts.choices import BoostTypeChoices
 from conts.models import NULLABLE
 
 
@@ -45,12 +45,16 @@ class Player(Model):
         verbose_name="Количество очков",
         default=0,
     )
+    login_days_count = PositiveIntegerField(
+        verbose_name="Количество дней входа",
+        help_text="Количество уникальных дней, когда игрок логинился",
+        default=0,
+    )
     current_level = PositiveIntegerField(
         default=0,
         verbose_name="Текущий уровень",
-        help_text="Выберите текущий уровень",
+        help_text="Текущий уровень",
         validators=[
-            MinValueValidator(0),
             MaxValueValidator(3),
         ],
     )
@@ -68,6 +72,7 @@ class Player(Model):
             self.first_login = now
         if not self.last_login or (now.date() > self.last_login.date()):
             self.points += 10
+            self.login_days_count += 1
         self.last_login = now
         self.save()
 
@@ -83,7 +88,7 @@ class Player(Model):
 
     def complete_level(self):
         if self.last_login is None:
-            raise ValueError("Игроку нельзя повысить уровоень, так как он не заходил в игру.")
+            raise ValueError("Игроку нельзя повысить уровень, так как он не заходил в игру.")
         if self.current_level >= 3:
             raise ValueError("Игрок достиг максимального уровня.")
         self.current_level += 1
@@ -99,12 +104,6 @@ class Player(Model):
             self.points += 100
         self.save()
         return True
-
-
-class BoostTypeChoices(TextChoices):
-    X2_GOLD = "x2_gold", "x2 золота"
-    X2_EXP = "x2_exp", "x2 опыта"
-    GOD_MODE = "god_mode", "Бессмертие"
 
 
 class Boost(Model):
