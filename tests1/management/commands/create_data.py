@@ -13,7 +13,7 @@ from tests1.models import Player
 
 
 class Command(BaseCommand):
-    help = "Команда для создания тестовых данных и админа."
+    help = "Команда для создания тестовых данных для первой части задания. А так же создание админа."
 
     def handle(self, *args, **kwargs):
         with transaction.atomic():

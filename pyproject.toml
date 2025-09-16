@@ -21,6 +21,7 @@ dependencies = [
 dev = [
     "pre-commit>=4.3.0",
     "ruff>=0.13.0",
+    "tqdm>=4.67.1",
 ]
 
 [tool.ruff]

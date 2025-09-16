@@ -1,12 +1,13 @@
-from django.contrib import admin, messages
+from django.contrib import messages
+from django.contrib.admin import ModelAdmin, register
 from django.utils import timezone
 from django.utils.html import format_html
 
 from tests1.models import Boost, Player
 
 
-@admin.register(Player)
-class PlayerAdmin(admin.ModelAdmin):
+@register(Player)
+class PlayerAdmin(ModelAdmin):
     """
     Админка для игроков.
     """
@@ -130,8 +131,8 @@ class PlayerAdmin(admin.ModelAdmin):
     get_boosts.short_description = "Бусты"
 
 
-@admin.register(Boost)
-class BoostAdmin(admin.ModelAdmin):
+@register(Boost)
+class BoostAdmin(ModelAdmin):
     """
     Админка для бустов.
     """
