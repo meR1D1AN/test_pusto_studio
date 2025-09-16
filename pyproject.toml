@@ -1,0 +1,49 @@
+[project]
+name = "test-pusto-studio"
+version = "0.0.1"
+description = "Тестовое задание для бэкенд разработчика на Python"
+requires-python = ">=3.13"
+authors = [
+    "Никита Шидогубов"
+]
+readme = "README.md"
+dependencies = [
+    "django>=5.2.6",
+    "djangorestframework>=3.16.1",
+    "drf-spectacular>=0.28.0",
+    "gunicorn>=23.0.0",
+    "psycopg2-binary>=2.9.10",
+    "python-dotenv>=1.1.1",
+]
+
+[dependency-groups]
+dev = [
+    "pre-commit>=4.3.0",
+    "ruff>=0.13.0",
+]
+
+[tool.ruff]
+line-length = 119
+exclude = [
+    ".git",
+    ".gitignore",
+    "__pycache__",
+    "__init__.py",
+    "manage.py",
+    "poetry.lock",
+    "pyproject.toml",
+    "migrations",
+    "tests.py",
+]
+target-version = "py313"
+fix = true
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "lf"
+
+[tool.ruff.lint]
+ignore = ["E501", "W293"]
+select = ["E", "F", "I", "B", "C", "A", "N", "UP"]
+mccabe.max-complexity = 12
