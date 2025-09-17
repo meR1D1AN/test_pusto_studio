@@ -13,13 +13,13 @@ WORKDIR /app
 RUN pip install uv
 
 # Копируем только файл с зависимостями
-COPY --chown=app_user:app_group pyproject.toml uv.lock ./
+COPY --chown=app_user:app_group ../../pyproject.toml uv.lock ./
 
 RUN uv sync --frozen && \
     pip cache purge && \
     uv cache prune
 
 # Копируем остальной код проекта
-COPY --chown=app_user:app_group . .
+COPY --chown=app_user:app_group ../.. .
 
 USER app_user
